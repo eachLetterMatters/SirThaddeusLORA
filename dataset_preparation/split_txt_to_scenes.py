@@ -3,9 +3,12 @@ import json
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# =========================
-# KONFIGURACJA
-# =========================
+# code responsible for making the llm detect changing of a scene
+
+# ==============================================================
+#           currently model does not respond to prompt
+# ==============================================================
+
 print(torch.__version__)
 
 MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
@@ -16,11 +19,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 print("DEVICE:", DEVICE)
 
 MAX_TOKENS = 1024
-MAX_NEW_TOKENS = 90  # krócej = mniej echowania
-
-# =========================
-# MODEL
-# =========================
+MAX_NEW_TOKENS = 90
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 tokenizer.pad_token = tokenizer.eos_token
@@ -33,9 +32,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 model.eval()
 
-# =========================
-# PROMPTY
-# =========================
+# prompt
 
 SYSTEM_PROMPT = (
     "Jesteś narzędziem do analizy struktury narracyjnej. "
@@ -67,10 +64,6 @@ Fragment B:
 Odpowiedz WYŁĄCZNIE w JSON:
 {{ "change_detected": true/false }}
 """
-
-# =========================
-# POMOCNICZE
-# =========================
 
 def clean_text(text):
     # normalizacja wielu nowych linii
@@ -129,9 +122,7 @@ def llm_detect_transition(prev, curr):
 
     return False
 
-# =========================
-# PIPELINE
-# =========================
+# main part
 
 with open(INPUT_FILE, "r", encoding="utf-8") as f:
     text = clean_text(f.read())
@@ -174,4 +165,4 @@ if current_scene.strip():
 
 out.close()
 
-print(f"✅ Zapisano {scene_id + 1} scen do {OUTPUT_FILE}")
+print(f"Zapisano {scene_id + 1} scen do {OUTPUT_FILE}")
