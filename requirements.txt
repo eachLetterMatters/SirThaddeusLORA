@@ -3,3 +3,5 @@ transformers~=4.57.3
 accelerate==1.11.0
 peft~=0.17.1
 datasets~=4.4.1
+tqdm~=4.67.1
+pyttsx3~=2.91

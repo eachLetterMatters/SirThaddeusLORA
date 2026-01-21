@@ -34,11 +34,13 @@ def ask_bielik():
     # ]
 
     messages = [
-        {"role": "system", "content": "Odpowiadaj jak siedemnastowieczny chłop"},
+        {"role": "system", "content": "Odpowiadaj jak polski szlachcic"},
         {"role": "user", "content": "Jak działa internet?"},    # opis jakiegoś bloga
     ]
 
     inputs = tokenizer.apply_chat_template(messages, return_tensors="pt").to(device)
+
+    print("Model generating ...")
 
     outputs = model.generate(
         inputs,
