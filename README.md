@@ -1,2 +1,2 @@
 # SirThaddeusLORA
-lora training on tiny llama
+Text To Speech with fine-tuned Bielik
